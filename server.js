@@ -3,39 +3,37 @@ const cors = require("cors");
 const path = require("path");
 
 const app = express();
-const PORT = 3000;
+
+// Render dynamic port
+const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
 
-app.use(express.static(path.join(__dirname, "public")));
+// Static files serve
+app.use(express.static(__dirname));
 
 // Home Route
 app.get("/", (req, res) => {
-
-    res.sendFile(path.join(__dirname, "public", "index.html"));
-
+  res.sendFile(path.join(__dirname, "index.html"));
 });
 
 // Login Route
 app.post("/login", (req, res) => {
 
-    const { email, password } = req.body;
+  const { email, password } = req.body;
 
-    console.log("Email:", email);
-    console.log("Password:", password);
+  console.log("Email:", email);
+  console.log("Password:", password);
 
-    res.json({
-
-        success: true,
-        message: "Data Received Successfully"
-
-    });
+  res.json({
+    success: true,
+    message: "Data Received Successfully"
+  });
 
 });
 
-app.listen(PORT, () => {
-
-    console.log(`Server Running On http://localhost:${PORT}`);
-
+// Start server
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Server Running On PORT ${PORT}`);
 });
